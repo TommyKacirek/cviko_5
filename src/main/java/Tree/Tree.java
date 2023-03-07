@@ -15,8 +15,9 @@ public class Tree {
         if (root == null) {
             root = new Node(key);
             return root;
+           
         }
-
+        
         if (key < root.key)
             root.left = insertRec(root.left, key);
         else if (key > root.key)
@@ -37,6 +38,44 @@ public class Tree {
         }
     }
 
+    void preorder() {
+    	preorderRec(root);
+    }
+    
+    void preorderRec(Node root) {
+        if (root != null) {
+            System.out.print(root.key + " ");
+            preorderRec(root.left);
+            preorderRec(root.right);
+        }
+    }
+    
+    void postorder() {
+    	postorderRec(root);
+    }
+    
+    void postorderRec(Node root) {
+        if (root != null) {
+        	postorderRec(root.left);
+        	postorderRec(root.right);
+        	System.out.print(root.key + " ");
+        }
+    }
+    
+    void printleaves() {
+    	printleavesRec(root);
+    }
+    
+    void printleavesRec(Node root) {
+        if (root != null) {
+        	if (root.left == null && root.right == null  ) {
+        		System.out.print(root.key + " ");
+        	}
+        	printleavesRec(root.left);
+        	printleavesRec(root.right);
+        }
+    }
+    
     void delete(int key) {
         root = deleteRec(root, key);
     }
@@ -54,9 +93,6 @@ public class Tree {
                 return root.right;
             else if (root.right == null)
                 return root.left;
-
-            root.key = getMinValueNode(root.right).key;
-            root.right = deleteRec(root.right, root.key);
         }
 
         return root;
@@ -74,32 +110,5 @@ public class Tree {
             return searchRec(root.left, key);
 
         return searchRec(root.right, key);
-    }
-
-    Node getMinValueNode(Node node) {
-        Node current = node;
-
-        while (current.left != null)
-            current = current.left;
-
-        return current;
-    }
-
-    int getHeight() {
-        return getHeightRec(root);
-    }
-
-    int getHeightRec(Node root) {
-        if (root == null)
-            return 0;
-        else {
-            int leftHeight = getHeightRec(root.left);
-            int rightHeight = getHeightRec(root.right);
-
-            if (leftHeight > rightHeight)
-                return (leftHeight + 1);
-            else
-                return (rightHeight + 1);
-        }
     }
 }
